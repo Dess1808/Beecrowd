@@ -2,11 +2,11 @@
 
 int main(void)
 {
-    int a = 0;
+    char string[5];
 
-    scanf("%d", &a);
+    scanf("%s", string);
 
-    printf("%d\n", a%2);
+    int number = (int) string[0];
 
-    return 0;
+    printf("%d\n", number);
 }
