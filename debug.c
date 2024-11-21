@@ -2,11 +2,14 @@
 
 int main(void)
 {
-    char string[5];
+    char digit;
+    char hour_string[5];
 
-    scanf("%s", string);
-
-    int number = (int) string[0];
-
-    printf("%d\n", number);
+    while((scanf("%s", hour_string)) != EOF)
+    {
+        printf("%s\n", hour_string);
+    }
+ 
+   
+    return 0;
 }

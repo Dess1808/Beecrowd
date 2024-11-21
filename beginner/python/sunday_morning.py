@@ -1,3 +1,4 @@
+#verificar tratamento para OEF em python
 hour_string = input()
 
 #separete ways and convertion
