@@ -3,12 +3,17 @@
 #include<ctype.h>
 #include<string.h>
 
+void resetVector(char* s);
+
 int main(void)
 {
     char hour_string[5];
     int hour = 0;
     int minutes = 0;
     int size = 0;
+
+    //incializando com null (\0)
+    resetVector(hour_string);
 
     //OEF fix!
     while((scanf("%s", hour_string)) != EOF)
@@ -53,10 +58,23 @@ int main(void)
         {
             printf("Atraso maximo: %d\n", (((hour - 8) + 1) * 60) + minutes);
         }
+
+        //resetando vetor hour_string
+        resetVector(hour_string);
+        size = 0;
     }
 
     return 0;
 }
+
+void resetVector(char* s)
+{
+//resete vetor 
+    for (int i = 0; i < 5; i++)
+    {
+        s[i] = '\0';
+    }
+}   
 
 /*
 converter entrada string em inteiro
