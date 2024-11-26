@@ -4,28 +4,38 @@ int main(void)
 {
     int x = 0;
     int caso = 1;
+    int count_numbers = 0;
 
     while(scanf("%d", &x) != EOF)
     {
-        //tratamento para 0
+        //tratamento pra 0 e 1
         if (x == 0)
         {
-            printf("Caso %d: 1 numero\n%d\n", caso, x);
+            printf("Caso %d: 1 numero\n0\n", caso);
             continue;
         }
-            
-        //fib calc
-        for (int i = 0; i <= x; i++)
+        else if (x == 1)
         {
-            if (i == 0)
-                printf("%d ", i);
-            else if (i == 1)
-                printf("%d ", i);
-            else
-                printf("%d ", (i - 1) + (i - 2));
+            printf("Caso %d: 2 numeros \n0 1\n", caso);
+            continue;
+        }
+        else //diferente 0 ou 1
+        {
+            for (int i = 0; i <= x; i++)
+            {   
+                if (i == 0)
+                    printf("%d ", i);
+                else if (i == 1)
+                    printf("%d ", i);
+                else 
+                {
+                    for (int j = 0; j < i; j++)
+                        printf("%d ", i);
+                }
+            }
         }
 
-        putchar('\n');
+        putchar('\n');   
 
         //update variabel
         caso++;
@@ -34,9 +44,6 @@ int main(void)
     return 0;
 }
 
-/*
-    Gerar um sequencia de fibonacci ate numero indicado
-    de acordo com a quantidade do numero, repeti-lo
-    contar quantos numeros foram gerados
-    OBS: fibanacci, informarmos apenas a quantidade de numero que queremos!
+/*  
+    gerar sequencia que repete o valores n
 */
