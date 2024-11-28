@@ -6,23 +6,40 @@ int main(void)
     int caso = 1;
     int count_numbers = 0;
 
-    while(scanf("%d", &x) != EOF)
+    //verificar "configurações" do scanf
+    while((scanf("%d", &x)) != EOF)
     {
         //tratamento pra 0 e 1
         if (x == 0)
         {
-            printf("Caso %d: 1 numero\n0\n", caso);
-            continue;
+            printf("Caso %d: 1 numero\n0", caso);
         }
         else if (x == 1)
         {
-            printf("Caso %d: 2 numeros \n0 1\n", caso);
-            continue;
+            printf("Caso %d: 2 numeros \n0 1", caso);
         }
         else //diferente 0 ou 1
         {
+            //only count
             for (int i = 0; i <= x; i++)
-            {   
+            {
+                if (i == 0)
+                    count_numbers++;
+                else if (i == 1)
+                    count_numbers++;
+                else 
+                {
+                    for (int j = 0; j < i; j++)
+                        count_numbers++;
+                }
+            }
+
+            //first informations
+            printf("Caso %d: %d numeros\n", caso, count_numbers);
+
+            //output number
+            for (int i = 0; i <= x; i++)
+            {
                 if (i == 0)
                     printf("%d ", i);
                 else if (i == 1)
@@ -30,15 +47,19 @@ int main(void)
                 else 
                 {
                     for (int j = 0; j < i; j++)
+                    {
                         printf("%d ", i);
+                    } 
                 }
             }
         }
 
-        putchar('\n');   
+        printf("\n\n");
 
         //update variabel
         caso++;
+        count_numbers = 0;
+        x = 0;
     }
 
     return 0;
@@ -46,4 +67,5 @@ int main(void)
 
 /*  
     gerar sequencia que repete o valores n
+    obs: o ideal seria utilizar uma vector dinamico para depois contar apenas o tamanho dele
 */
