@@ -33,36 +33,31 @@ int main(void)
             //output
             printf("Caso %d: %d numeros\n", caso, count_numbers);
 
+            //sempre sera executado, sem espaçamento
+            printf("0");
+
             //output number
-            for (int i = 0; i <= x; i++)
+            for (int i = 1; i <= x; i++)
             {
-                if (i == 0)
-                    printf("%d ", i);
-                else if (i == 1)
-                    printf("%d ", i);
+                if (i == 1)
+                    //fixed, espaçamento à esquerda
+                    printf(" %d", i); 
                 else 
                 {
                     for (int j = 0; j < i; j++)
                     {
-                        printf("%d ", i);
+                        printf(" %d", i);
                     } 
                 }
             }
         }
         
         //next line
-        putchar('\n');
-        putchar('\n');
+        printf("\n\n");
 
         //update variabel
         caso++;
         count_numbers = 0;
     }
-
     return 0;
 }
-
-/*  
-    gerar sequencia que repete o valores n
-    obs: o ideal seria utilizar uma vector dinamico para depois contar apenas o tamanho dele
-*/

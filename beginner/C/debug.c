@@ -1,42 +1,25 @@
-#include<stdio.h>
-#include<ctype.h>
-#include<stdlib.h>
-
-int main(void)
+#include <stdio.h>
+int main()
 {
-    char digit;
-    char hour_string[5];
-    int size = 0;
-    int hour = 0;
-    int minutes = 0;
-
-    scanf("%s", hour_string);
-
-    //verificar quantos digitos tem
-    for (int i = 0; i < 5; i++)
+    int n, i, j, cnt=0;
+    while(scanf("%d", &n) != EOF)
     {
-        if (isdigit(hour_string[i]))
+        int num = 1;
+        cnt++;
+        num += ((n*(n + 1)) / 2);
+        if(n == 0) 
+            printf("Caso %d: %d numero\n", cnt, num);
+        else 
+            printf("Caso %d: %d numeros\n", cnt, num);
+        
+        printf("0");
+        
+        for(i=1; i<=n; i++)
         {
-            size += 1;
+            for(j=1; j<=i; j++)
+                printf(" %d", i);
         }
+        printf("\n\n");
     }
-
-    //converter 
-    //igual a 4, minuto position "3"
-    //igual a 3, minuto position "2"
-
-    if (size == 3)
-    {
-        hour = atoi(&hour_string[0]);
-        minutes = atoi(&hour_string[2]);  
-    }
-    else 
-    {
-        hour = atoi(&hour_string[0]);
-        minutes = atoi(&hour_string[3]); 
-    }
-
-    printf("%d : %d\n", hour, minutes);
-   
     return 0;
 }
