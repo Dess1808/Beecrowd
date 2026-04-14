@@ -39,7 +39,7 @@ class FoodRichInVitanimeC {
     }
 
     protected function getRedGuavaName(){
-        return 'goiba vermelha';
+        return 'goiaba vermelha';
     }
 
     //sleeve
@@ -80,15 +80,15 @@ class DailyIntakeCalc extends FoodRichInVitanimeC {
     //calc, to create function for classification to calc values of food
     public function getAvaliation(){
         $result = 0;
-
+        
         foreach($this->inputFoodDaily as $key => $value){
             //Orange Juice
             if ($key == self::getOrangeJuiceName()){ 
-                $result += $value * self::getOrangeJuiceMG();
+                $result += (int) $value * self::getOrangeJuiceMG();
 
             //freshStrarberry
-            } elseif ($key == self::getFreshStrawberryMG()){ 
-                $result += $value * self::getFreshStrawberryName();
+            } elseif ($key == self::getFreshStrawberryName()){ 
+                $result += $value * self::getFreshStrawberryMG();
 
             //papaya
             } elseif ($key == self::getPapayaName()){
@@ -111,17 +111,16 @@ class DailyIntakeCalc extends FoodRichInVitanimeC {
                 $result += $value * self::getBroccoliMG();
             }
         }
-
+        
         //daily intake range 110 - 130 
         if ($result < 110){
-            return "Mais " . $result = 110 - $result . " mg"; 
+            return "Mais " .  110 - $result . " mg"; 
         } elseif ($result > 130){
-            return "Menos " . $result = $result - 130 . " mg";
+            return "Menos " . $result - 130 . " mg";
         } else {
             return $result . " mg";
         }
     }
-    
 }
 
 //main
