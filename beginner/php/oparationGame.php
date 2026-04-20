@@ -15,23 +15,20 @@
 */
 
 class Operation {
-    private $expressionInputUser = [];
-    private $nameUser;
-    private $opSelection;
-    private $operation;
-    
-    public function __constructor($expressionInputUser, $answer = []){
-        $this->expressionInputUser = $expressionInputUser;
-        $this->nameUser = $answer[0];
-        $this->opSelection = $answer[1];
-        $this->operation = $answer[2];
-    }
+   private $a;
+   private $operator;
+   private $b;
+   private $resultPrepare;
 
-    public function getResults(): void{
-    
-    }
+   public function __constructor($stringInput){
+        //transformartion 
+        $arrayInput = str_split($stringInput);
+        $this->a = $arrayInput[0];
+        $this->operator = $arrayInput[1];
+        $this->b = $arrayInput[2];
+        $this->resultPrepare = $arrayInput[4];
+   }
 
-    private function checkOperation($expression, $nameUser, $opSelection, $operation): string{
-        
-    }
+   //methods
+   
 }
