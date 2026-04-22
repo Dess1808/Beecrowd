@@ -24,96 +24,120 @@ class Operation {
     private $winnerOrNot = [];
     private $expressions = [];
     
-    public function __constructor($expressions, $answers){
-        
+    public function __construct($expressions, $answers){
+        //expression's organization 
+        $expressionsTemp = $expressions;
+        $this->expressions = $expressions;
+
+        //answers + resultExpected from $expressions 
         foreach($answers as $answer){
-            //answer's organization
-            $this->name = $answer['name'];
-            $this->op = $answer['op'];
-            $this->choice = $answer['choice'];
-            $this->resultExpected = $answer['resultExpected'];
-            
-            //expression array organization
-            $this->expressions = $expressions;
+            $arrayAnswer = explode(' ', $answer);
+            $this->name = $arrayAnswer[0];
+            $this->choice = $arrayAnswer[1];
+            $this->op = $arrayAnswer[2];
 
-            //calc response
-            $this->$winnersOrNot[] = self::getVerificatingAnswers(
+            //verificar se funciona!!
+            $this->resultExpected = self::getOnlyExpression($expressionsTemp[0]);
+            array_splice($expressionsTemp, 0, 0); //remove by index always the first '0'
+
+            //verification answers
+            $this->winnerOrNot[] = self::getVerificatingAnswers(
                 $this->name, 
-                $this->op, 
                 $this->choice, 
+                $this->op,
                 $this->resultExpected,
-                $this->$expressions);
+                $this->expressions);
         }
     }
 
+
+    //methods
     //verification answers
-    private function getVerificatingAnswers($name, $op, $choice, $resultExpected, $expressions){
-        $response;
+    private function getVerificatingAnswers($name, $choice, $op, $resultExpected, $expressions): string{
+        $responseTemp;
     
-        //choice expression
-        switch($op){
-            case 1:
-                $response = self::analizeExpression($name, $op, $resultExpected, $expressions[0]);
-                break;
-            case 2:
-                $response = self::analizeExpression($name, $op, $resultExpected, $expressions[1]);
-                break; 
-            case 3:
-                $response = self::analizeExpression($name, $op, $resultExpected, $expressions[2]);
-                break;
-            default:
-                $response = "invalid value for choice";
+        //digit's organization
+        $a = $expressions[$choice-1][0];
+        $b = $expressions[$choice-1][2];
+
+    
+        //impossible case
+        if ($op == 'I'){
+            if (self::isItImpossible($a, $b, $resultExpected)){
+                return $name;   
+            } else {
+                return '';
+            }
+        } else {
+            //default cases
+            switch($op){
+                case '+':
+                    $responseTemp = $a + $b;
+                    break;
+                case '-':
+                    $responseTemp = $a - $b;
+                    break;
+                case '*':
+                    $responseTemp = $a * $b;
+                    break;
+            } 
+
+            //final verification case default
+            if ($responseTemp == $resultExpected){
+                return $name;
+            } else {
+                return '';
+            }
         }
 
-        return $response;
+       
     }
-
-    //analize expression
-    private function analizeExpression($name, $op, $resultExpected, $expressions){
-        //digit's organizations
-        $a = $expressions[0];
-        $b = $expressions[2];
-        $resultTemp = 0;
-
-        //case 'impossible'
+    
+    //position resultExpected from $expression
+    private function getOnlyExpression($expressionTemp): int{
+        $oneExpression = explode('=', $expressionTemp);
         
-        //default cases
-        switch($op){
-            case '+':
-                $resultTemp = $a + $b;
-                break;
-            case '-':
-                $resultTemp = $a - $b;
-                break;
-            case '*':
-                $resultTemp = $a * $b;
-                break;
-        }
+        //real position of resultExpected
+        return $oneExpression[1];
+    }
 
-        if ($resultTemp == $resultExpected){
-            return $name;
+    //impossible's verification
+    private function isItImpossible($a, $b, $resultExpected): bool{
+        if (($a + $b) == $resultExpected){
+            return false;
+        } elseif (($a - $b) == $resultExpected){
+            return false;
+        } elseif (($a * $b) == $resultExpected){
+            return false;
+        } else {
+            return true;
         }
     }
-    
-    //getNames
-    public function getWinnersOrNot(){
+
+
+    //gets values
+    public function getWinnersOrNot(): array{
         return $this->winnerOrNot;
     }
 }
 
 //main
 //input
-$inputLoop = trim(readLine());
+// $inputLoop = trim(readLine());
 
-//input expression
-for ($i = 0; $i < $inputLoop; $i++){
-    $expressions[] = trim(readLine());
-}
+// //input expression
+// for ($i = 0; $i < $inputLoop; $i++){
+//     $expressions[] = trim(readLine());
+// }
 
-//input answers
-for ($i = 0; $i < $inputLoop; $i++){
-    $answers[] = trim(readLine());
-}
+// //input answers
+// for ($i = 0; $i < $inputLoop; $i++){
+//     $answers[] = trim(readLine());
+// }
 
-$winnersOrNot = (Operation($expressions, $answers))->getWinnersOrNot();
+//teste value truncated
+$expressions = [0 => '8 4=3', 1 => '10 123=90'];
+$answers = [0 => 'Alex 1 I', 1 => 'Abner 2 I'];
+
+$winnersOrNot = (new Operation($expressions, $answers))->getWinnersOrNot();
 print_r($winnersOrNot);
