@@ -36,9 +36,11 @@ class Operation {
             $this->choice = $arrayAnswer[1];
             $this->op = $arrayAnswer[2];
 
-            //verificar se funciona!!
-            $this->resultExpected = self::getOnlyExpression($expressionsTemp[0]);
-            array_splice($expressionsTemp, 0, 0); //remove by index always the first '0'
+            //working!
+            /*obs: excluir sempre o primeiro item do array, como uma pilha, removendo sempre o top
+            para acessar o proximo item!
+            */
+            $this->resultExpected = self::getResultExpectedFromExpression($expressionsTemp[$this->choice-1]);
 
             //verification answers
             $this->winnerOrNot[] = self::getVerificatingAnswers(
@@ -57,16 +59,16 @@ class Operation {
         $responseTemp;
     
         //digit's organization
-        $a = $expressions[$choice-1][0];
-        $b = $expressions[$choice-1][2];
+        $a = (int) $expressions[$choice-1][0];
+        $b = (int) $expressions[$choice-1][2];
 
     
         //impossible case
         if ($op == 'I'){
             if (self::isItImpossible($a, $b, $resultExpected)){
-                return $name;   
+                return ''; 
             } else {
-                return '';
+                return $name;
             }
         } else {
             //default cases
@@ -83,7 +85,7 @@ class Operation {
             } 
 
             //final verification case default
-            if ($responseTemp == $resultExpected){
+            if ($responseTemp != $resultExpected){
                 return $name;
             } else {
                 return '';
@@ -93,8 +95,10 @@ class Operation {
        
     }
     
+    //utilites methods**
+
     //position resultExpected from $expression
-    private function getOnlyExpression($expressionTemp): int{
+    private function getResultExpectedFromExpression($expressionTemp): int{
         $oneExpression = explode('=', $expressionTemp);
         
         //real position of resultExpected
@@ -103,17 +107,25 @@ class Operation {
 
     //impossible's verification
     private function isItImpossible($a, $b, $resultExpected): bool{
+        $yesOrNo;
+
+        echo "inside isItImpossible" . PHP_EOL;
+        var_dump($a);
+        var_dump($b);
+        var_dump($resultExpected);
+    
         if (($a + $b) == $resultExpected){
-            return false;
+            $yesOrNo = false;
         } elseif (($a - $b) == $resultExpected){
-            return false;
+            $yesOrNo = false;
         } elseif (($a * $b) == $resultExpected){
-            return false;
+            $yesOrNo = false;
         } else {
             return true;
         }
-    }
 
+        return $yesOrNo;
+    }
 
     //gets values
     public function getWinnersOrNot(): array{
@@ -123,21 +135,22 @@ class Operation {
 
 //main
 //input
-// $inputLoop = trim(readLine());
+$inputLoop = trim(readLine());
 
-// //input expression
-// for ($i = 0; $i < $inputLoop; $i++){
-//     $expressions[] = trim(readLine());
-// }
+//input expression
+for ($i = 0; $i < $inputLoop; $i++){
+    $expressions[] = trim(readLine());
+}
 
-// //input answers
-// for ($i = 0; $i < $inputLoop; $i++){
-//     $answers[] = trim(readLine());
-// }
+//input answers
+for ($i = 0; $i < $inputLoop; $i++){
+    $answers[] = trim(readLine());
+}
 
-//teste value truncated
-$expressions = [0 => '8 4=3', 1 => '10 123=90'];
-$answers = [0 => 'Alex 1 I', 1 => 'Abner 2 I'];
+//obj construct
+$winnersOrNot = implode(" ", (new Operation($expressions, $answers))->getWinnersOrNot());
 
-$winnersOrNot = (new Operation($expressions, $answers))->getWinnersOrNot();
-print_r($winnersOrNot);
+//output final
+echo $winnersOrNot . PHP_EOL;
+
+
