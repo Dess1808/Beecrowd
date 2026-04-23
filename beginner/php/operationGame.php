@@ -21,7 +21,7 @@ class Operation {
     private $op;
     private $resultExpected;
     private $choice;
-    private $winnerOrNot = [];
+    private $winnersOrNot = [];
     private $expressions = [];
     
     public function __construct($expressions, $answers){
@@ -43,7 +43,7 @@ class Operation {
             $this->resultExpected = self::getResultExpectedFromExpression($expressionsTemp[$this->choice-1]);
 
             //verification answers
-            $this->winnerOrNot[] = self::getVerificatingAnswers(
+            $this->winnersOrNot[] = self::getVerificatingAnswers(
                 $this->name, 
                 $this->choice, 
                 $this->op,
@@ -109,11 +109,6 @@ class Operation {
     private function isItImpossible($a, $b, $resultExpected): bool{
         $yesOrNo;
 
-        echo "inside isItImpossible" . PHP_EOL;
-        var_dump($a);
-        var_dump($b);
-        var_dump($resultExpected);
-    
         if (($a + $b) == $resultExpected){
             $yesOrNo = false;
         } elseif (($a - $b) == $resultExpected){
@@ -127,9 +122,10 @@ class Operation {
         return $yesOrNo;
     }
 
-    //gets values
-    public function getWinnersOrNot(): array{
-        return $this->winnerOrNot;
+    //get final response
+    //check output - None Shall Pass, You Shall Pass anda names only
+    public function getWinnersOrNotResultFinal(): string{
+        
     }
 }
 
@@ -147,10 +143,9 @@ for ($i = 0; $i < $inputLoop; $i++){
     $answers[] = trim(readLine());
 }
 
-//obj construct
-$winnersOrNot = implode(" ", (new Operation($expressions, $answers))->getWinnersOrNot());
+//obj construct and organization ouput
+$winnersOrNot = (new Operation($expressions, $answers))->getWinnersOrNotResultFinal();
 
-//output final
+//output
 echo $winnersOrNot . PHP_EOL;
-
 
