@@ -125,27 +125,45 @@ class Operation {
     //get final response
     //check output - None Shall Pass, You Shall Pass anda names only
     public function getWinnersOrNotResultFinal(): string{
+        //reponse default
+        $responseFinal = "None Shall Pass";
+        $arrayWithoutBlankSpace = array_diff($this->winnersOrNot, ['']);
         
+        //You Shall Pass
+        if (count($arrayWithoutBlankSpace) == 0){
+            $responseFinal = "You Shall All Pass";
+        } else {
+            foreach($this->winnersOrNot as $wn){
+                if ($wn === ''){
+                    $responseFinal = implode(" ", $arrayWithoutBlankSpace);
+                    break;
+                }
+            }
+        }
+        
+        return $responseFinal;
     }
 }
 
 //main
-//input
-$inputLoop = trim(readLine());
+while(($inputLoop = trim(readLine()))){
+    //input
+    //input expression
+    for ($i = 0; $i < $inputLoop; $i++){
+        $expressions[] = trim(readLine());
+    }
 
-//input expression
-for ($i = 0; $i < $inputLoop; $i++){
-    $expressions[] = trim(readLine());
+    //input answers
+    for ($i = 0; $i < $inputLoop; $i++){
+        $answers[] = trim(readLine());
+    }
+
+    //obj construct and organization ouput
+    $winnersOrNot = (new Operation($expressions, $answers))->getWinnersOrNotResultFinal();
+
+    //output
+    echo $winnersOrNot . PHP_EOL;
+
+    //reset variables!!!
 }
-
-//input answers
-for ($i = 0; $i < $inputLoop; $i++){
-    $answers[] = trim(readLine());
-}
-
-//obj construct and organization ouput
-$winnersOrNot = (new Operation($expressions, $answers))->getWinnersOrNotResultFinal();
-
-//output
-echo $winnersOrNot . PHP_EOL;
 
