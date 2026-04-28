@@ -25,10 +25,10 @@ class Operation {
     private $expressions = [];
     
     public function __construct($expressions, $answers){
-        //expression's organization  and winnerOrNot, não esta reescrevendo
+        //expression's organization 
         $this->expressions = $expressions; 
 
-        //answers + resultExpected from $expressions 
+        //answers 
         foreach($answers as $answer){
             [$this->name, $this->choice, $this->op] = explode(" ", $answer);
 
@@ -43,11 +43,6 @@ class Operation {
     //methods
     //verification answers
     private function getVerificatingAnswers($name, $op, $expressionSelected): string{
-        $responseTemp = 0;
-        $a = 0;
-        $b = 0;
-        $resultExpected = 0;
-
         //standardized expression
         $separators = [" ", "="];
         $expressionStandard = explode(" ", str_replace($separators, " ", $expressionSelected));
@@ -110,13 +105,22 @@ class Operation {
     public function getWinnersOrNotResultFinal(): string{
         //reponse default
         $responseFinal = "None Shall Pass";
-        $arrayWithoutBlankSpace = array_diff($this->winnersOrNot, ['']);
+        $arrayWithoutBlankSpaceSorted = [];
         
+        //sorteding array
+        sort($this->winnersOrNot);
+        foreach($this->winnersOrNot as $key => $val){
+            $arrayWithoutBlankSpaceSorted[$key] = $val;
+        }
+           
+        //not blank spaces to test
+        $arrayWithoutBlankSpace = array_diff($this->winnersOrNot, ['']);
+
         //You Shall Pass
         if (count($arrayWithoutBlankSpace) == 0){
             $responseFinal = "You Shall All Pass";
         } else {
-            foreach($this->winnersOrNot as $wn){
+            foreach($arrayWithoutBlankSpaceSorted as $wn){
                 if ($wn === ''){
                     $responseFinal = implode(" ", $arrayWithoutBlankSpace);
                     break;
@@ -128,12 +132,13 @@ class Operation {
     }
 }
 
+//main 
 //control variables
 $inputLoop = 0;
 $expressions = [];
 $answers = [];
 
-//main
+//while not entrance EOF, keep reading...
 while(($inputLoop = trim(readLine()))){
     //input
     //input expression
