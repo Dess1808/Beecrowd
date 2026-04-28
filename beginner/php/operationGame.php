@@ -25,46 +25,40 @@ class Operation {
     private $expressions = [];
     
     public function __construct($expressions, $answers){
-        //expression's organization 
-        $expressionsTemp = $expressions;
-        $this->expressions = $expressions;
+        //expression's organization  and winnerOrNot, não esta reescrevendo
+        $this->expressions = $expressions; 
 
         //answers + resultExpected from $expressions 
         foreach($answers as $answer){
-            $arrayAnswer = explode(' ', $answer);
-            $this->name = $arrayAnswer[0];
-            $this->choice = $arrayAnswer[1];
-            $this->op = $arrayAnswer[2];
-
-            //working!
-            /*obs: excluir sempre o primeiro item do array, como uma pilha, removendo sempre o top
-            para acessar o proximo item!
-            */
-            $this->resultExpected = self::getResultExpectedFromExpression($expressionsTemp[$this->choice-1]);
+            [$this->name, $this->choice, $this->op] = explode(" ", $answer);
 
             //verification answers
             $this->winnersOrNot[] = self::getVerificatingAnswers(
                 $this->name, 
-                $this->choice, 
                 $this->op,
-                $this->resultExpected,
-                $this->expressions);
+                $this->expressions[$this->choice-1]); //one expression selected
         }
     }
 
-
     //methods
     //verification answers
-    private function getVerificatingAnswers($name, $choice, $op, $resultExpected, $expressions): string{
-        $responseTemp;
-    
-        //digit's organization
-        $a = (int) $expressions[$choice-1][0];
-        $b = (int) $expressions[$choice-1][2];
+    private function getVerificatingAnswers($name, $op, $expressionSelected): string{
+        $responseTemp = 0;
+        $a = 0;
+        $b = 0;
+        $resultExpected = 0;
 
+        //standardized expression
+        $separators = [" ", "="];
+        $expressionStandard = explode(" ", str_replace($separators, " ", $expressionSelected));
+
+        //digit's organization e resultExpected
+        $a = (int) $expressionStandard[0];
+        $b = (int) $expressionStandard[1];
+        $resultExpected = (int) $expressionStandard[2];
     
         //impossible case
-        if ($op == 'I'){
+        if ($op == "I"){
             if (self::isItImpossible($a, $b, $resultExpected)){
                 return ''; 
             } else {
@@ -73,13 +67,13 @@ class Operation {
         } else {
             //default cases
             switch($op){
-                case '+':
+                case "+":
                     $responseTemp = $a + $b;
                     break;
-                case '-':
+                case "-":
                     $responseTemp = $a - $b;
                     break;
-                case '*':
+                case "*":
                     $responseTemp = $a * $b;
                     break;
             } 
@@ -96,18 +90,9 @@ class Operation {
     }
     
     //utilites methods**
-
-    //position resultExpected from $expression
-    private function getResultExpectedFromExpression($expressionTemp): int{
-        $oneExpression = explode('=', $expressionTemp);
-        
-        //real position of resultExpected
-        return $oneExpression[1];
-    }
-
     //impossible's verification
     private function isItImpossible($a, $b, $resultExpected): bool{
-        $yesOrNo;
+        $yesOrNo = true;
 
         if (($a + $b) == $resultExpected){
             $yesOrNo = false;
@@ -115,8 +100,6 @@ class Operation {
             $yesOrNo = false;
         } elseif (($a * $b) == $resultExpected){
             $yesOrNo = false;
-        } else {
-            return true;
         }
 
         return $yesOrNo;
@@ -145,6 +128,11 @@ class Operation {
     }
 }
 
+//control variables
+$inputLoop = 0;
+$expressions = [];
+$answers = [];
+
 //main
 while(($inputLoop = trim(readLine()))){
     //input
@@ -165,5 +153,6 @@ while(($inputLoop = trim(readLine()))){
     echo $winnersOrNot . PHP_EOL;
 
     //reset variables!!!
+    $expressions = [];
+    $answers = [];
 }
-
