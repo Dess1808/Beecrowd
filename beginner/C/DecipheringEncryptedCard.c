@@ -9,12 +9,13 @@ int main(void)
     //variabels default
     int size_cipher = 0;
     int amount_phrases = 0;
-    char phrases[1000][100];
-
     
     while((scanf("%d %d", &size_cipher, &amount_phrases)) != EOF)
     {
         clear_buffer();
+
+        //create phrases by and reset
+        char phrases[amount_phrases][1000];
 
         //implementar entrada da palavras cifradas!
         char cipher1[size_cipher+1];
@@ -55,14 +56,26 @@ int main(void)
                     if (cipher1[k] == phrases[i][j])
                     {
                         //verification if is it a number?
-                        if (isalnum(cipher1[k])) 
+                        if (isdigit(cipher1[k])) 
+                        {
                             phrases[i][j] = tolower(cipher2[k]);
-                        else 
+                        } 
+                        else if (ispunct(cipher1[k]))// verification if is it a punctuation 
+                        {
+                            phrases[i][j] = tolower(cipher2[k]);
+                        } 
+                        else if (cipher1[k] == ' ') //blank space
+                        {
+                            phrases[i][j] = tolower(cipher2[k]);
+                        }
+                        else //uppcase by default 
+                        {
                             phrases[i][j] = cipher2[k];
+                        }
 
                         break;
                     }
-                    else if (tolower(cipher1[k]) == phrases[i][j])
+                    else if (tolower(cipher1[k]) == phrases[i][j]) //lowercase
                     {
                         phrases[i][j] = tolower(cipher2[k]);
                         break;
@@ -70,14 +83,26 @@ int main(void)
                     else if (cipher2[k] == phrases[i][j]) //cipher2 verification
                     {      
                         //verification if is it a number?
-                        if (isalnum(cipher2[k])) 
+                        if (isdigit(cipher2[k])) 
+                        {
                             phrases[i][j] = tolower(cipher1[k]);
-                        else 
+                        } 
+                        else if (ispunct(cipher2[k]))// verification if is it a punctuation 
+                        {
+                            phrases[i][j] = tolower(cipher1[k]);
+                        } 
+                        else if (cipher2[k] == ' ')
+                        {
+                            phrases[i][j] = tolower(cipher1[k]);
+                        }
+                        else //uppcase by default 
+                        {
                             phrases[i][j] = cipher1[k];
-
+                        }
+                        
                         break;
                     }
-                    else if (tolower(cipher2[k]) == phrases[i][j])
+                    else if (tolower(cipher2[k]) == phrases[i][j]) //lowercase
                     {
                         phrases[i][j] = tolower(cipher1[k]);
                         break;
@@ -93,12 +118,10 @@ int main(void)
         }
         
         putchar('\n');
-        putchar('\n');   
 
         //reset variables
         size_cipher = 0;
         amount_phrases = 0;
-        phrases[1000][100];
     }
     
 
