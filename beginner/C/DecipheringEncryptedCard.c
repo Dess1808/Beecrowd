@@ -13,6 +13,8 @@ int main(void)
     
     while((scanf("%d %d", &size_cipher, &amount_phrases)) != EOF)
     {
+
+        putchar('\n');
         clear_buffer();
 
         //create phrases by and reset
@@ -56,8 +58,6 @@ int main(void)
             printf("%s\n", phrases[i]);
         }
         
-        putchar('\n');
-
         //reset variables
         size_cipher = 0;
         amount_phrases = 0;
@@ -77,6 +77,8 @@ char char_verificator(char phrase_value, char *cipher1, char *cipher2, int size_
 {
     for (int i = 0; i < size_cipher; i++)
     {
+        //verificar bug!! condições não validadas
+
         //cipher1 verification
         if (cipher1[i] == phrase_value)
         {
@@ -98,7 +100,6 @@ char char_verificator(char phrase_value, char *cipher1, char *cipher2, int size_
                 phrase_value = cipher2[i]; //upper case by default
             } 
                 
-            
             break;
         } 
         else if (tolower(cipher1[i]) == phrase_value) //cipher1 verificaton lowercase
@@ -130,10 +131,11 @@ char char_verificator(char phrase_value, char *cipher1, char *cipher2, int size_
         } 
         else if (tolower(cipher2[i]) == phrase_value) //cipher2 verificaton lowercase
         {
-            phrase_value = cipher1[i];
+            phrase_value = tolower(cipher1[i]);
             break;
         }
     }
-    
+
+    //verificar porque phrase_value não esta atualizando, mesmo fora do escopo for()
     return phrase_value;
 }
