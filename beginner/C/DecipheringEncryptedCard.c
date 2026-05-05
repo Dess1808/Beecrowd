@@ -3,6 +3,7 @@
 #include<ctype.h>
 
 void clear_buffer();
+char char_verificator(char phrase_value, char *cipher1, char *cipher2, int size_cipher);
 
 int main(void)
 {
@@ -40,75 +41,13 @@ int main(void)
             phrases[i][strcspn(phrases[i], "\n")] = '\0';
         }
 
-
-        //logic problem
-
         //select phrase
         for (int i = 0; i < amount_phrases; i++)
         {
-            //running itself phrases
             for (int j = 0; phrases[i][j] != '\0'; j++)
-            {       
-                //verification cipher lettera
-                for (int k = 0; k < size_cipher; k++)
-                {
-                    //cipher1 verification
-                    if (cipher1[k] == phrases[i][j])
-                    {
-                        //verification if is it a number?
-                        if (isdigit(cipher1[k])) 
-                        {
-                            phrases[i][j] = tolower(cipher2[k]);
-                        } 
-                        else if (ispunct(cipher1[k]))// verification if is it a punctuation 
-                        {
-                            phrases[i][j] = tolower(cipher2[k]);
-                        } 
-                        else if (cipher1[k] == ' ') //blank space
-                        {
-                            phrases[i][j] = tolower(cipher2[k]);
-                        }
-                        else //uppcase by default 
-                        {
-                            phrases[i][j] = cipher2[k];
-                        }
-
-                        break;
-                    }
-                    else if (tolower(cipher1[k]) == phrases[i][j]) //lowercase
-                    {
-                        phrases[i][j] = tolower(cipher2[k]);
-                        break;
-                    }
-                    else if (cipher2[k] == phrases[i][j]) //cipher2 verification
-                    {      
-                        //verification if is it a number?
-                        if (isdigit(cipher2[k])) 
-                        {
-                            phrases[i][j] = tolower(cipher1[k]);
-                        } 
-                        else if (ispunct(cipher2[k]))// verification if is it a punctuation 
-                        {
-                            phrases[i][j] = tolower(cipher1[k]);
-                        } 
-                        else if (cipher2[k] == ' ')
-                        {
-                            phrases[i][j] = tolower(cipher1[k]);
-                        }
-                        else //uppcase by default 
-                        {
-                            phrases[i][j] = cipher1[k];
-                        }
-                        
-                        break;
-                    }
-                    else if (tolower(cipher2[k]) == phrases[i][j]) //lowercase
-                    {
-                        phrases[i][j] = tolower(cipher1[k]);
-                        break;
-                    }
-                }
-            }
+            {
+                phrases[i][j] = char_verificator(phrases[i][j], cipher1, cipher2, size_cipher);
+            }    
         }
 
         //output
@@ -132,4 +71,69 @@ void clear_buffer()
 {
     int c;
     while((c = getchar()) != '\n' && c != EOF);
+}
+
+char char_verificator(char phrase_value, char *cipher1, char *cipher2, int size_cipher)
+{
+    for (int i = 0; i < size_cipher; i++)
+    {
+        //cipher1 verification
+        if (cipher1[i] == phrase_value)
+        {
+            //is it digit?
+            if (isdigit(phrase_value))
+            {
+                phrase_value = tolower(cipher2[i]);
+            }
+            else if (ispunct(phrase_value)) //is it pontuaction?
+            {
+                phrase_value = tolower(cipher2[i]);
+            } 
+            else if (phrase_value == ' ') //is it space blank?
+            {
+                phrase_value = tolower(cipher2[i]);
+            }
+            else
+            {
+                phrase_value = cipher2[i]; //upper case by default
+            } 
+                
+            
+            break;
+        } 
+        else if (tolower(cipher1[i]) == phrase_value) //cipher1 verificaton lowercase
+        {
+            phrase_value = tolower(cipher2[i]);
+            break;
+        }
+        else if (cipher2[i] == phrase_value) //cipher2 verification
+        {
+            //is it digit?
+            if (isdigit(phrase_value))
+            {
+                phrase_value = tolower(cipher1[i]);
+            }
+            else if (ispunct(phrase_value)) //is it pontuaction?
+            {
+                phrase_value = tolower(cipher1[i]);
+            } 
+            else if (phrase_value == ' ') //is it space blank?
+            {
+                phrase_value = tolower(cipher1[i]);
+            }
+            else
+            {
+                phrase_value = cipher1[i]; //upper case by default 
+            } 
+                
+            break;
+        } 
+        else if (tolower(cipher2[i]) == phrase_value) //cipher2 verificaton lowercase
+        {
+            phrase_value = cipher1[i];
+            break;
+        }
+    }
+    
+    return phrase_value;
 }
