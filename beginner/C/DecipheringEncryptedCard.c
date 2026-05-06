@@ -11,10 +11,11 @@ int main(void)
     int size_cipher = 0;
     int amount_phrases = 0;
     
-    while((scanf("%d %d", &size_cipher, &amount_phrases)) != EOF)
+    while(1)
     {
+        if (scanf("%d%d", &size_cipher, &amount_phrases) == EOF)
+            break;
 
-        putchar('\n');
         clear_buffer();
 
         //create phrases by and reset
@@ -41,6 +42,7 @@ int main(void)
 
             //rmv \n
             phrases[i][strcspn(phrases[i], "\n")] = '\0';
+            // clear_buffer();
         }
 
         //select phrase
@@ -58,12 +60,15 @@ int main(void)
             printf("%s\n", phrases[i]);
         }
         
+        putchar('\n');
+
         //reset variables
         size_cipher = 0;
         amount_phrases = 0;
     }
     
 
+    putchar('\n');
     return 0;
 }
 
