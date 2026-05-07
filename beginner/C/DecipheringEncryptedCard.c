@@ -67,8 +67,6 @@ int main(void)
         amount_phrases = 0;
     }
     
-
-    putchar('\n');
     return 0;
 }
 
